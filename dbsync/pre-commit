@@ -4,9 +4,13 @@
 
 #running mysql from xampp runs from here
 thisdirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
-repopath="$thisdirectory/../../" #takes us out of hooks and out of .git folder to the repo base
+repopath="$thisdirectory/../../" #takes us out of hooks and out of .git folder back to the repo base
 source "$repopath/dbsync/config.sh" #let's grab the config variables
 
+[[ $mysqlpath = "" ]] && dumpcommand="mysqldump" || dumpcommand="$mysqlpath/mysqldump" #if path isn't specified assume mysqldump is a global command
+
+echo "running command $dumpcommand"
+
 #dump the database into the repo and file
-"$mysqlpath/mysqldump" -u $mysqluser -p $mysqlpass --skip-extended-insert $dbname > "$repopath/dbsync/dbdump.sql"
+"$dumpcommand" -u $mysqluser -p $mysqlpass --skip-extended-insert $dbname > "$repopath/dbsync/dbdump.sql"
 git add "$repopath/dbsync/dbdump.sql" #let's add this to the repo
