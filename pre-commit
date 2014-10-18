@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#TODO: setup variables to be external from this script and pulled in
+
+#running mysql from xampp runs from here
+thisdirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
+repopath="$thisdirectory/../../" #takes us out of hooks and out of .git folder to the repo base
+cd $repopath #go to repobase
+repopath=$(pwd) #set repo base again
+source "$repopath/dbsync/config.sh" #let's grab the config variables
+
+#dump the database into the repo and file
+"$mysqlpath/mysqldump" -u $mysqluser -p $mysqlpass --skip-extended-insert $dbname > "$repopath/dbsync/$dbname.sql"
+git add "$repopath/dbsync/$dbname.sql" #let's add this to the repo
