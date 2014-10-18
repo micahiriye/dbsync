@@ -10,4 +10,4 @@ source "$repopath/dbsync/config.sh" #let's grab the config variables
 echo "running command $importcommand"
 
 #put the files into the database from the dump
-"$repopath/dbsync/$dbname.sql" > "$importcommand" -u $mysqluser -p $mysqlpass $dbname
+"$repopath/dbsync/dbdump.sql" > "$importcommand" -u $mysqluser -p $mysqlpass $dbname
