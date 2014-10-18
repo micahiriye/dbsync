@@ -1,4 +1,4 @@
 dbsync
 ======
 
-A very simple way to easily implement git's built-in hook feature to sync up local database changes to be easily shared and synced with other collaborators.
+A very simple way to implement git's built-in hook feature to sync up local database changes to be synced with other collaborator's local databases.
