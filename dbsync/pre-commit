@@ -12,5 +12,5 @@ source "$repopath/dbsync/config.sh" #let's grab the config variables
 echo "running command $dumpcommand"
 
 #dump the database into the repo and file
-"$dumpcommand" -u $mysqluser -p $mysqlpass --skip-extended-insert $dbname > "$repopath/dbsync/dbdump.sql"
+"$dumpcommand" -u $mysqluser -p $mysqlpass --skip-extended-insert --skip-comments $dbname > "$repopath/dbsync/dbdump.sql"
 git add "$repopath/dbsync/dbdump.sql" #let's add this to the repo
