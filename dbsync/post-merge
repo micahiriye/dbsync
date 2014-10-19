@@ -1,13 +1,16 @@
 #!/bin/sh
 
-#TODO: setup variables to be external from this script and pulled in
-thisdirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
-repopath="$thisdirectory/../../" #takes us out of hooks and out of .git folder back to the repo base
+$prePostMergeHook
+
+thisDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
+repoPath="$thisDirectory/../../" #takes us out of hooks and out of .git folder back to the repo base
 source "$repopath/dbsync/config.sh" #let's grab the config variables
 
-[[ $mysqlpath = "" ]] && importcommand="mysql" || importcommand="$mysqlpath/mysql" #if path isn't specified assume mysql is a global command
+[[ $mysqlPath = "" ]] && importCommand="mysql" || importCommand="$mysqlPath/mysql" #if path isn't specified assume mysql is a global command
 
-echo "running command $importcommand"
+echo "running command $importCommand"
 
 #put the files into the database from the dump
-"$repopath/dbsync/dbdump.sql" > "$importcommand" -u $mysqluser -p $mysqlpass $dbname
+"$repoPath/dbsync/dbdump.sql" > "$importCommand" -u $mysqlUser -p $mysqlPass $dbName
+
+$postPostMergeHook

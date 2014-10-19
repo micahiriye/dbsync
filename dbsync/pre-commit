@@ -1,16 +1,17 @@
 #!/bin/sh
 
-#TODO: setup variables to be external from this script and pulled in
+$prePreCommitHook
 
-#running mysql from xampp runs from here
-thisdirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
-repopath="$thisdirectory/../../" #takes us out of hooks and out of .git folder back to the repo base
+thisDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #gets the directory of the install file no matter where it's called from
+repoPath="$thisDirectory/../../" #takes us out of hooks and out of .git folder back to the repo base
 source "$repopath/dbsync/config.sh" #let's grab the config variables
 
-[[ $mysqlpath = "" ]] && dumpcommand="mysqldump" || dumpcommand="$mysqlpath/mysqldump" #if path isn't specified assume mysqldump is a global command
+[[ $mysqlPath = "" ]] && dumpCommand="mysqldump" || dumpCommand="$mysqlPath/mysqldump" #if path isn't specified assume mysqldump is a global command
 
-echo "running command $dumpcommand"
+echo "running command $dumpCommand"
 
 #dump the database into the repo and file
-"$dumpcommand" -u $mysqluser -p $mysqlpass --skip-extended-insert --skip-comments $dbname > "$repopath/dbsync/dbdump.sql"
-git add "$repopath/dbsync/dbdump.sql" #let's add this to the repo
+"$dumpCommand" -u $mysqlUser -p $mysqlPass --skip-extended-insert --skip-comments $dbName > "$repoPath/dbsync/dbdump.sql"
+git add "$repoPath/dbsync/dbdump.sql" #let's add this to the repo
+
+$postPreCommitHook
